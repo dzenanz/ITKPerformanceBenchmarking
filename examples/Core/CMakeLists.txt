@@ -18,3 +18,14 @@ add_test(
 set_property(TEST ThreadOverheadBenchmark APPEND PROPERTY LABELS Core)
 ## performance tests should not be run in parallel
 set_tests_properties(ThreadOverheadBenchmark PROPERTIES RUN_SERIAL TRUE)
+
+add_executable(ImageIterationBenchmark itkImageIterationBenchmark.cxx )
+target_link_libraries(ImageIterationBenchmark ${ITK_LIBRARIES})
+add_test(
+  NAME ImageIterationBenchmark
+  COMMAND ImageIterationBenchmark
+  ${BENCHMARK_RESULTS_OUTPUT_DIR}/__DATESTAMP__ImageIterationBenchmark.json
+  50 128 )
+set_property(TEST ImageIterationBenchmark APPEND PROPERTY LABELS Core)
+## performance tests should not be run in parallel
+set_tests_properties(ImageIterationBenchmark PROPERTIES RUN_SERIAL TRUE)
