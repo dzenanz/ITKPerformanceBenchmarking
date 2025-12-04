@@ -91,7 +91,7 @@ CopyScanlineIterator(const TInputImage * inputPtr, TOutputImage * outputPtr)
     while (!inputIt.IsAtEndOfLine())
     {
       const InputPixelType & inputPixel = inputIt.Get();
-      OutputPixelType        value(outputIt.Get());
+      OutputPixelType &      value(outputIt.Get());
       for (unsigned int k = 0; k < componentsPerPixel; ++k)
       {
         value[k] = static_cast<typename OutputPixelType::ValueType>(inputPixel[k]);
@@ -130,7 +130,7 @@ CopyScanlineIteratorNumericTraits(const TInputImage * inputPtr, TOutputImage * o
     {
       const InputPixelType & inputPixel = inputIt.Get();
 
-      OutputPixelType value{ outputIt.Get() };
+      OutputPixelType & value{ outputIt.Get() };
       for (unsigned int k = 0; k < componentsPerPixel; ++k)
       {
         value[k] = static_cast<typename OutputPixelType::ValueType>(inputPixel[k]);
@@ -232,7 +232,8 @@ CopyImageRegionRangeNumericTraitsAsRange(const TInputImage * inputPtr, TOutputIm
   auto outputIt = outputRange.begin();
 
   const unsigned int componentsPerPixel = itk::NumericTraits<OutputPixelType>::GetLength(*outputIt);
-  OutputPixelType    outputPixel{ *outputIt };
+  OutputPixelType    outputPixelRef{ *outputIt };
+  OutputPixelType    outputPixel = outputPixelRef;
   for (const InputPixelType & inputPixel : itk::ImageRegionRange<const TInputImage>(*inputPtr, inputRegion))
   {
     for (unsigned int k = 0; k < componentsPerPixel; ++k)
